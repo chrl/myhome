@@ -1,0 +1,19 @@
+* {
+    font-weight: 300;
+}
+.main-header .logo {
+    font-family: 'Roboto';
+    font-weight: 300;
+}
+
+.btn-primary {
+    background: #fa0;
+    color: #fff;
+    border-color: transparent;
+    -webkit-transition: all 275ms ease-in-out;
+    transition: all 275ms ease-in-out;
+}
+
+.btn-primary:hover {
+    background: #e69900;
+}

@@ -18,7 +18,9 @@ before_install:
 install:
   - sudo apt-get install -y --force-yes php7-mysql
   - composer -n --no-progress --no-suggest install
-script: vendor/bin/phpcs --colors --standard=PSR2 src/
+script:
+  - vendor/bin/phpcs --colors --standard=PSR2 src/
+  - phpunit
 after_success:
   - wget -O - -q 'https://02p.ru/tnotify/?ntxt=Build%20of%20chrl/myhome%20succeeded!' >/dev/null 2>&1
 

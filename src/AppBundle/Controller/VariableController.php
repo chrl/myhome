@@ -39,7 +39,7 @@ class VariableController extends Controller
 
     public function getAction($name)
     {
-    	/** @var Service $vars */
+        /** @var Service $vars */
         $vars = $this->get('vars');
 
         /** @var Variable $var */

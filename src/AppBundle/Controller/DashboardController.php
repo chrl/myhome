@@ -25,7 +25,7 @@ class DashboardController extends Controller
     /**
      * @Route("/dashboard/widgets.json", name="dashboard_widgets")
      * @param Request $request
-     * @return Res
+     * @return Response
      */
     public function widgetsAction(Request $request)
     {

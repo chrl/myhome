@@ -26,8 +26,8 @@ class UpdateDisplayCommand extends ContainerAwareCommand
         
         $lines[0] = "[Internet]   [".date('H:i').']';
         $lines[1] = "Ping:    ".$varService->get('internet.ping')->getValue()."   ms";
-        $lines[2] = "Upload:  ".(round($varService->get('internet.upload')->getValue()/10000)/100) . "   mbps";
-        $lines[3] = "Dload:   ".(round($varService->get('internet.download')->getValue()/10000)/100) . "  mbps";
+        $lines[2] = "Upload:  ".(round($varService->get('internet.upload')->getValue()/10000)/100)."   mbps";
+        $lines[3] = "Dload:   ".(round($varService->get('internet.download')->getValue()/10000)/100)."  mbps";
 
         exec('/usr/bin/python /home/smarthome/h3p/bin/lcd_i2c.py "'.
             $lines[0].'" "'.

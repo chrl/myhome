@@ -48,7 +48,7 @@ class Service
         $parser = 'AppBundle\Variable\Parser\\'.ucfirst($var->getParser());
 
         if (!class_exists($parser)) {
-            throw new Exception('Unknown parser: ' . $parser);
+            throw new Exception('Unknown parser: '.$parser);
         }
 
         /** @var ParserInterface $parser */

@@ -98,7 +98,7 @@ class VariableController extends Controller
     {
         $response = new Response();
         $response->setContent(json_encode(array(
-            'result' => $success ? 'ok': 'fail',
+            'result' => $success ? 'ok' : 'fail',
             'response'=> $resp,
         )));
         $response->headers->set('Content-Type', 'application/json');

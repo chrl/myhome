@@ -22,6 +22,15 @@ return [
             'agent'     => '',
             'db_role'   => true,
         ],
+		'localpi' => [
+			'host'      => '192.168.0.100',
+			'username'  => 'pi',
+			'password'  => null,
+			'key'       => null,
+			'keyphrase' => null,
+			'agent'     => '',
+			'db_role'   => true,
+		],
     ],
     'use_roles'        => true,
     'on'               => [

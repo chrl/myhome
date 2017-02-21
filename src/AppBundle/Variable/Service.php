@@ -12,10 +12,14 @@ class Service
 {
 
     private $doctrine;
+    private $needSync = false;
+    private $syncHost;
 
-    public function __construct(Registry $doctrine)
+    public function __construct(Registry $doctrine, $needSync, $syncHost)
     {
         $this->doctrine = $doctrine;
+        $this->needSync = $needSync;
+        $this->syncHost = $syncHost;
     }
 
     public function getDoctrine()
@@ -60,6 +64,9 @@ class Service
             return false;
         }
 
+        if ($this->needSync) {
+        	@file_get_contents($this->syncHost.'set/'.$varName.'?value='.$value);
+		}
 
         $var->setValue($value);
         $var->setLaststatus(200);

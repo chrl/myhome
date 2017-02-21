@@ -17,3 +17,5 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+    syncronize_vars:   false
+    syncronize_host:   http://my.koelnhome.ru/

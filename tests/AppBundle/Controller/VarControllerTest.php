@@ -3,8 +3,10 @@
 namespace Tests\AppBundle\Controller;
 
 use AppBundle\DataFixtures\ORM\LoadVariableData;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Tests\AppBundle\Teardown;
 
-class VarControllerTest extends LoadFixtures
+class VarControllerTest extends Teardown
 {
 
 	public function setUp()
@@ -26,6 +28,14 @@ class VarControllerTest extends LoadFixtures
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('{"result":"ok","response":{"temperature":"20","humidity":"70"}}',$client->getResponse()->getContent());
     }
+
+	public function testUnexistentVars()
+	{
+		$client = static::createClient();
+		$client->request('GET', '/var/unexistent');
+
+		$this->assertEquals(500, $client->getResponse()->getStatusCode());
+	}
 
 	public function testAddVarValue()
 	{

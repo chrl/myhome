@@ -20,7 +20,7 @@ install:
   - composer -n --no-progress --no-suggest install
 script:
   - vendor/bin/phpcs --colors --standard=PSR2 src/
-  - phpunit
+  - vendor/bin/phpunit
 after_success:
   - wget -O - -q 'https://02p.ru/tnotify/?ntxt=Build%20of%20chrl/myhome%20succeeded!' >/dev/null 2>&1
 

@@ -22,7 +22,7 @@ class MeasureSpeedCommand extends ContainerAwareCommand
         $output->writeln('Measuring internet speed');
         $exec = exec('/usr/local/bin/speedtest-cli --json');
 
-        $json = json_decode($exec,true);
+        $json = json_decode($exec, true);
 
         $output->writeln($exec);
 

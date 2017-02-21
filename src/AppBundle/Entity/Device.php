@@ -105,5 +105,4 @@ class Device
         $this->type = $type;
         return $this;
     }
-
 }

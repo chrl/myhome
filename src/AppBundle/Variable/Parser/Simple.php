@@ -8,6 +8,6 @@ class Simple implements ParserInterface
 {
     public function parse(Request $request)
     {
-        return $request->query->get('value',false);
+        return $request->query->get('value', false);
     }
 }

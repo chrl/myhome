@@ -35,7 +35,8 @@ class Service
         return $var;
     }
 
-    public function set($varName, $value) {
+    public function set($varName, $value)
+    {
         $vars = $this->getDoctrine()->getRepository('AppBundle:Variable');
 
         /** @var Variable $var */

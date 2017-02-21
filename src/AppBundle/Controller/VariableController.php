@@ -44,17 +44,21 @@ class VariableController extends Controller
         $var = $vars->findOneBy(['name'=>$name]);
 
         if (!$var) {
-            return $this->sendResponse(false,
+            return $this->sendResponse(
+                false,
                 [
                     'message'=>'Variable not found',
-                ]);
+                ]
+            );
         }
 
-        return $this->sendResponse(true,
-                [
+        return $this->sendResponse(
+            true,
+            [
                     'name'=>$var->getName(),
                     'value'=>$var->getValue(),
-                ]);
+            ]
+        );
     }
 
     /**
@@ -72,16 +76,20 @@ class VariableController extends Controller
         $value = $varService->set($name, $request);
 
         if (!$value) {
-            return $this->sendResponse(true,
+            return $this->sendResponse(
+                true,
                 [
                     'message'=>'Cannot set variable, maybe value param is missing?',
-                ]);
+                ]
+            );
         }
 
-        return $this->sendResponse(true,
+        return $this->sendResponse(
+            true,
             [
                 'message'=>'Set: '.$value,
-            ]);
+            ]
+        );
     }
 
     public function sendResponse($success, array $resp)

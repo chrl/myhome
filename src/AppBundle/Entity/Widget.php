@@ -192,5 +192,4 @@ class Widget
         $this->name = $name;
         return $this;
     }
-
 }

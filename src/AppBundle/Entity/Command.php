@@ -126,6 +126,4 @@ class Command
         $this->type = $type;
         return $this;
     }
-
-
 }

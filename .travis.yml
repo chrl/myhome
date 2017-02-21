@@ -16,7 +16,7 @@ before_install:
   - phpenv config-rm xdebug.ini
   - composer global require "hirak/prestissimo:^0.3"
 install:
-  - sudo apt-get install -y --force-yes php7-mysql
+  - sudo apt-get install -y --force-yes php7.0-mysql
   - composer -n --no-progress --no-suggest install
 script:
   - vendor/bin/phpcs --colors --standard=PSR2 src/

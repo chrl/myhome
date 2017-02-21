@@ -17,6 +17,7 @@ before_install:
   - mysql -e 'CREATE DATABASE symfony;'
 install:
   - composer -n --no-progress --no-suggest install
+before_script: echo 'error_reporting = E_ALL ^ E_DEPRECATED' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 script:
   - vendor/bin/phpcs --colors --standard=PSR2 src/
   - phpunit --coverage-clover=coverage.clover

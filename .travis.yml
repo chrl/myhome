@@ -20,10 +20,14 @@ install:
 script:
   - vendor/bin/phpcs --colors --standard=PSR2 src/
   - phpunit --coverage-clover=coverage.clover
-  - wget https://scrutinizer-ci.com/ocular.phar
+after_script:
+  - wget -q https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 after_success:
   - wget -O - -q 'https://02p.ru/tnotify/?ntxt=Build%20of%20chrl/myhome%20succeeded!' >/dev/null 2>&1
+  - wget http://rocketeer.autopergamene.eu/versions/rocketeer.phar
+  - chmod +x rocketeer.phar
+  - ./rocketeer.phar deploy --no-interaction
 
 after_failure:
   - wget -O - -q 'https://02p.ru/tnotify/?ntxt=Build%20of%20chrl/myhome%20failed%20:(' >/dev/null 2>&1

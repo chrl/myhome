@@ -70,15 +70,6 @@ class Variable
         return $this->id;
     }
 
-    /**
-     * @param mixed $id
-     * @return Variable
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
 
     /**
      * @return mixed

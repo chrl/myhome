@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Variable;
+use AppBundle\Variable\Service;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,10 +39,11 @@ class VariableController extends Controller
 
     public function getAction($name)
     {
-        $vars = $this->getDoctrine()->getRepository('AppBundle:Variable');
+    	/** @var Service $vars */
+        $vars = $this->get('vars');
 
         /** @var Variable $var */
-        $var = $vars->findOneBy(['name'=>$name]);
+        $var = $vars->get($name);
 
         if (!$var) {
             return $this->sendResponse(

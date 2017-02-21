@@ -13,7 +13,6 @@ matrix:
 before_install:
   - wget -O - -q 'https://02p.ru/tnotify/?ntxt=Build%20of%20chrl/myhome%20started' >/dev/null 2>&1
   - sudo apt-get update -qq > /dev/null
-  - phpenv config-rm xdebug.ini
   - composer global require "hirak/prestissimo:^0.3"
   - mysql -e 'CREATE DATABASE symfony;'
 install:

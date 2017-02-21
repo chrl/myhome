@@ -20,7 +20,9 @@ install:
   - composer -n --no-progress --no-suggest install
 script:
   - vendor/bin/phpcs --colors --standard=PSR2 src/
-  - vendor/bin/phpunit
+  - phpunit --coverage-clover=coverage.clover
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 after_success:
   - wget -O - -q 'https://02p.ru/tnotify/?ntxt=Build%20of%20chrl/myhome%20succeeded!' >/dev/null 2>&1
 

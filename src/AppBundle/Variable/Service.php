@@ -65,8 +65,8 @@ class Service
         }
 
         if ($this->needSync) {
-        	@file_get_contents($this->syncHost.'set/'.$varName.'?value='.$value);
-		}
+            @file_get_contents($this->syncHost.'set/'.$varName.'?value='.$value);
+        }
 
         $var->setValue($value);
         $var->setLaststatus(200);

@@ -26,7 +26,7 @@ class VarControllerTest extends Teardown
         $client->request('GET', '/var');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"result":"ok","response":{"temperature":"20","humidity":"70"}}',$client->getResponse()->getContent());
+        $this->assertEquals('{"result":"ok","response":{"temperature":"20","humidity":"70","internet.upload":"70","internet.download":"70","internet.ping":"70"}}',$client->getResponse()->getContent());
     }
 
 	public function testUnexistentVars()
@@ -57,5 +57,17 @@ class VarControllerTest extends Teardown
 		$this->assertEquals(200, $client->getResponse()->getStatusCode());
 		$this->assertEquals('{"result":"ok","response":{"name":"temperature","value":"'.$value.'"}}',$client->getResponse()->getContent());
 
+	}
+
+	public function testSetArgumentValue()
+	{
+		$client = static::createClient();
+
+		$value = rand(0,300);
+		$varService = $client->getContainer()->get('vars');
+
+		$varService->set('humidity',$value);
+
+		$this->assertEquals($value,$varService->get('humidity')->getValue());
 	}
 }

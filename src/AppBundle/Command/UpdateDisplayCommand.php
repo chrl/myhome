@@ -29,7 +29,7 @@ class UpdateDisplayCommand extends ContainerAwareCommand
         $lines[2] = "Upload:  ".(round($varService->get('internet.upload')->getValue()/10000)/100)."   mbps";
         $lines[3] = "Dload:   ".(round($varService->get('internet.download')->getValue()/10000)/100)."  mbps";
 
-        exec('/usr/bin/python /home/smarthome/h3p/bin/lcd_i2c.py "'.
+        exec('/usr/bin/python '.__DIR__.'/../../../bin/lcd_i2c.py "'.
             $lines[0].'" "'.
             $lines[1].'" "'.
             $lines[2].'" "'.

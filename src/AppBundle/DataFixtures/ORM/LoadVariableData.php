@@ -31,6 +31,36 @@ class LoadVariableData implements FixtureInterface
 
         $manager->persist($variable);
 
+        $variable = new Variable();
+
+        $variable->setName('internet.upload');
+        $variable->setDescription('test humidity metric');
+        $variable->setSource('internal');
+        $variable->setParser('Argument');
+        $variable->setValue('70');
+
+        $manager->persist($variable);
+
+        $variable = new Variable();
+
+        $variable->setName('internet.download');
+        $variable->setDescription('test humidity metric');
+        $variable->setSource('internal');
+        $variable->setParser('Argument');
+        $variable->setValue('70');
+
+        $manager->persist($variable);
+
+        $variable = new Variable();
+
+        $variable->setName('internet.ping');
+        $variable->setDescription('test humidity metric');
+        $variable->setSource('internal');
+        $variable->setParser('Argument');
+        $variable->setValue('70');
+
+        $manager->persist($variable);
+
 
         $manager->flush();
     }

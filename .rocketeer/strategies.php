@@ -29,8 +29,8 @@ return [
             return $composer->install(
                 [],
                 [
-                    '--no-interaction' => null,
-                    '--no-progress'=>null,
+                    '--no-interaction' => true,
+                    '--no-progress'=>true,
                     '--no-suggest'=>null,
                     '--prefer-dist' => null
                 ]

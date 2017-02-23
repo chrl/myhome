@@ -156,7 +156,7 @@
                                            for (k in widget.history) {
                                                data.push({
                                                    x: new Date(widget.history[k].df),
-                                                   y: Math.round(widget.history[k].av)
+                                                   y: Math.round(widget.history[k].av*100)/100
                                                });
                                            }
 

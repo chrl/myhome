@@ -36,6 +36,12 @@
             }, 1000);
         });
         $(document).ready(function () {
+            Highcharts.setOptions({
+                global: {
+                    useUTC: false
+                }
+            });
+
             gridster = $(".gridster ul").gridster({
                 widget_base_dimensions: ['auto', 160],
                 autogenerate_stylesheet: true,
@@ -98,6 +104,7 @@
 
                                Highcharts.chart($(this).find('.gridster-box').attr('id'), {
                                    chart: {
+                                       marginRight:20,
                                        type: 'spline',
                                        backgroundColor: null,
                                        style: {
@@ -152,7 +159,6 @@
                                            // generate an array of random data
                                            var data = [];
                                            widget = window.widgets.widgets[id];
-                                           console.log(widget);
                                            for (k in widget.history) {
                                                data.push({
                                                    x: new Date(widget.history[k].df),
@@ -206,11 +212,27 @@
             $.get('/dashboard/update.json',function (data) {
                 for (k in data.widgets) {
                     widget = data.widgets[k];
-                    if ($('li[data-widget-id='+widget.id+'] div.value').text() != widget.value) {
-                        $('li[data-widget-id='+widget.id+'] div.value').data('toset',widget.value);
-                        $('li[data-widget-id='+widget.id+'] div.value').fadeOut('slow',function(){
-                            $(this).text($(this).data('toset')).fadeIn('slow');
-                        });
+
+                    if (widget.type == 'value') {
+
+                        if ($('li[data-widget-id=' + widget.id + '] div.value').text() != widget.value) {
+                            $('li[data-widget-id=' + widget.id + '] div.value').data('toset', widget.value);
+                            $('li[data-widget-id=' + widget.id + '] div.value').fadeOut('slow', function () {
+                                $(this).text($(this).data('toset')).fadeIn('slow');
+                            });
+                        }
+                    }
+
+                    if (widget.type == 'chart') {
+
+                        if ($('li[data-widget-id=' + widget.id + ']').data('lastupdate') != widget.lastchange.date)
+                        {
+                            $('li[data-widget-id=' + widget.id + ']').data('lastupdate', widget.lastchange.date);
+                            chart = $('li[data-widget-id=' + widget.id + '] div.gridster-box').highcharts();
+                            console.log('Lastupdate!');
+                            t = chart.series[0].addPoint([new Date(widget.lastchange.date).getTime(), Math.round(widget.value*100)/100]);
+
+                        }
                     }
                 }
             })

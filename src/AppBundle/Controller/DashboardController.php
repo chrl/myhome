@@ -36,7 +36,8 @@ class DashboardController extends Controller
             $list[$widget->getId()] = [
                 'id'=>$widget->getId(),
                 'lastchange'=>$widget->getVariable()->getLastupdate(),
-                'value'=>$widget->getVariable()->getValue()
+                'value'=>$widget->getVariable()->getValue(),
+                'type'=>$widget->getType()
             ];
         }
         $response = new Response();

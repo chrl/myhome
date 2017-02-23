@@ -13,7 +13,7 @@ class DashboardController extends Controller
     /**
      * @Route("/dashboard", name="var_dashboard")
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
         return $this->render('dashboard/index.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
@@ -22,10 +22,9 @@ class DashboardController extends Controller
 
     /**
      * @Route("/dashboard/update.json", methods={"GET"}, name="dashboard_update")
-     * @param Request $request
      * @return Response
      */
-    public function updateAction(Request $request)
+    public function updateAction()
     {
         $widgets = $this->getDoctrine()->getRepository('AppBundle:Widget');
 
@@ -51,10 +50,9 @@ class DashboardController extends Controller
 
     /**
      * @Route("/dashboard/widgets.json", methods={"GET"}, name="dashboard_widgets")
-     * @param Request $request
      * @return Response
      */
-    public function widgetsAction(Request $request)
+    public function widgetsAction()
     {
         $widgets = $this->getDoctrine()->getRepository('AppBundle:Widget');
 

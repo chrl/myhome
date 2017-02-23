@@ -88,28 +88,28 @@ class Service
         return $value;
     }
 
-	/**
-	 * @param Variable $variable
-	 * @return array
-	 */
+    /**
+     * @param Variable $variable
+     * @return array
+     */
     public function getDayHistory(Variable $variable)
-	{
-		/** @var EntityManager $em */
-		$em = $this->getDoctrine()->getManager();
+    {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
 
-		$q = $em->createQueryBuilder();
-		$res = $q->
-			select('AVG(vh.value) as av')->
-			addSelect('DATE_FORMAT(vh.time,\'%Y-%m-%d %H:%i\') as df')->
-			from('AppBundle:VariableHistory','vh')->
-			where('vh.time >= :date')->
-			setParameter('date', new \DateTime('-24 hour'))->
-			andWhere('vh.var = :var_id')->
-			setParameter('var_id',$variable->getId())->
-			groupBy('df')->
-			orderBy('df','asc')->
-			getQuery();
+        $q = $em->createQueryBuilder();
+        $res = $q->
+            select('AVG(vh.value) as av')->
+            addSelect('DATE_FORMAT(vh.time,\'%Y-%m-%d %H:%i\') as df')->
+            from('AppBundle:VariableHistory', 'vh')->
+            where('vh.time >= :date')->
+            setParameter('date', new \DateTime('-24 hour'))->
+            andWhere('vh.var = :var_id')->
+            setParameter('var_id', $variable->getId())->
+            groupBy('df')->
+            orderBy('df', 'asc')->
+            getQuery();
 
-		return $res->getArrayResult();
-	}
+        return $res->getArrayResult();
+    }
 }

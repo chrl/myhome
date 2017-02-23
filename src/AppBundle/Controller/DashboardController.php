@@ -15,11 +15,38 @@ class DashboardController extends Controller
      */
     public function indexAction(Request $request)
     {
-
-        // replace this example code with whatever you need
         return $this->render('dashboard/index.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
         ]);
+    }
+
+    /**
+     * @Route("/dashboard/update.json", methods={"GET"}, name="dashboard_update")
+     * @param Request $request
+     * @return Response
+     */
+    public function updateAction(Request $request)
+    {
+        $widgets = $this->getDoctrine()->getRepository('AppBundle:Widget');
+
+        $widgets = $widgets->findAll();
+
+        $list = [];
+        /** @var Widget $widget */
+        foreach ($widgets as $widget) {
+            $list[$widget->getId()] = [
+                'id'=>$widget->getId(),
+                'lastchange'=>$widget->getVariable()->getLastupdate(),
+                'value'=>$widget->getVariable()->getValue()
+            ];
+        }
+        $response = new Response();
+        $response->setContent(json_encode(array(
+            'result' =>'ok',
+            'widgets'=> $list,
+        )));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**

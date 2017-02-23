@@ -46,7 +46,6 @@
             $.get('/dashboard/widgets.json',function(data){
                for (k in data.widgets) {
                    widget = data.widgets[k];
-                   console.log(widget);
                    gridster.add_widget('<li data-widget-id="'+widget.id+'" data-col="'+
                        widget.x+
                        '" data-row="'+
@@ -64,5 +63,19 @@
                }
             });
         });
+
+        setInterval(function(){
+            $.get('/dashboard/update.json',function (data) {
+                for (k in data.widgets) {
+                    widget = data.widgets[k];
+                    if ($('li[data-widget-id='+widget.id+'] div.value').text() != widget.value) {
+                        $('li[data-widget-id='+widget.id+'] div.value').data('toset',widget.value);
+                        $('li[data-widget-id='+widget.id+'] div.value').fadeOut('slow',function(){
+                            $(this).text($(this).data('toset')).fadeIn('slow');
+                        });
+                    }
+                }
+            })
+        },10000);
     </script>
 {% endblock %}

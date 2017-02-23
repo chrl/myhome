@@ -13,21 +13,46 @@ class DashboardController extends Controller
     /**
      * @Route("/dashboard", name="var_dashboard")
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
-
-        // replace this example code with whatever you need
         return $this->render('dashboard/index.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
         ]);
     }
 
     /**
-     * @Route("/dashboard/widgets.json", methods={"GET"}, name="dashboard_widgets")
-     * @param Request $request
+     * @Route("/dashboard/update.json", methods={"GET"}, name="dashboard_update")
      * @return Response
      */
-    public function widgetsAction(Request $request)
+    public function updateAction()
+    {
+        $widgets = $this->getDoctrine()->getRepository('AppBundle:Widget');
+
+        $widgets = $widgets->findAll();
+
+        $list = [];
+        /** @var Widget $widget */
+        foreach ($widgets as $widget) {
+            $list[$widget->getId()] = [
+                'id'=>$widget->getId(),
+                'lastchange'=>$widget->getVariable()->getLastupdate(),
+                'value'=>$widget->getVariable()->getValue()
+            ];
+        }
+        $response = new Response();
+        $response->setContent(json_encode(array(
+            'result' =>'ok',
+            'widgets'=> $list,
+        )));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/dashboard/widgets.json", methods={"GET"}, name="dashboard_widgets")
+     * @return Response
+     */
+    public function widgetsAction()
     {
         $widgets = $this->getDoctrine()->getRepository('AppBundle:Widget');
 

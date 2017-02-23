@@ -68,8 +68,13 @@ class DashboardController extends Controller
                 'width'=>$widget->getWidth(),
                 'height'=>$widget->getHeight(),
                 'name'=>$widget->getName(),
+                'type'=>$widget->getType(),
                 'value'=>$widget->getVariable()->getValue()
             ];
+
+            if ($widget->getType() == 'chart') {
+                $list[$widget->getId()]['history'] = $this->get('vars')->getDayHistory($widget->getVariable());
+            }
         }
         $response = new Response();
         $response->setContent(json_encode(array(

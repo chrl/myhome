@@ -39,6 +39,7 @@ class WidgetControllerTest extends Teardown
 			'width'=>2,
 			'height'=>2,
 			'value'=>20,
+			'type'=>'value'
 		],$widget);
     }
 

@@ -19,9 +19,22 @@
 {% block javascripts %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="/assets/gridster/jquery.gridster.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
 
     <script type="text/javascript">
+        function adjustGraph() {
+            for (k in Highcharts.charts) {
+                Highcharts.charts[k].reflow();
+            }
+        }
         var gridster = null;
+
+        $(window).resize(function(){
+            if (window.resizeTO) clearTimeout(window.resizeTO);
+            window.resizeTO = setTimeout(function () {
+                adjustGraph.call();
+            }, 1000);
+        });
         $(document).ready(function () {
             gridster = $(".gridster ul").gridster({
                 widget_base_dimensions: ['auto', 160],
@@ -33,6 +46,13 @@
                     enabled: true,
                     stop: function (event, ui, $widget) {
                         $.post('/dashboard/widgets.json',{'widgets': gridster.serialize()});
+                        adjustGraph();
+                    },
+                    resize: function(e, ui, $widget) {
+                        if (window.resizeTO) clearTimeout(window.resizeTO);
+                        window.resizeTO = setTimeout(function () {
+                            adjustGraph.call();
+                        }, 50);
                     }
                 },
                 draggable: {
@@ -44,22 +64,140 @@
             }).data('gridster');
             $('.gridster  ul').css({'padding': '0'});
             $.get('/dashboard/widgets.json',function(data){
+
+                window.widgets = data;
                for (k in data.widgets) {
                    widget = data.widgets[k];
-                   gridster.add_widget('<li data-widget-id="'+widget.id+'" data-col="'+
-                       widget.x+
-                       '" data-row="'+
-                       widget.y+
-                       '"><div class="gridster-box"><div class="title">'+
-                       widget.name +
-                       '</div><div class="value">'+
-                       widget.value +
-                       '</div><div class="handle-resize"></div></div></li>',
-                       widget.width,
-                       widget.height,
-                       widget.x,
-                       widget.y
-                   );
+
+                   if (widget.type=='value') {
+                       gridster.add_widget('<li data-widget-id="' + widget.id + '" data-col="' +
+                           widget.x +
+                           '" data-row="' +
+                           widget.y +
+                           '"><div class="gridster-box"><div class="title">' +
+                           widget.name +
+                           '</div><div class="value">' +
+                           widget.value +
+                           '</div><div class="handle-resize"></div></div></li>',
+                           widget.width,
+                           widget.height,
+                           widget.x,
+                           widget.y
+                       );
+                   }
+                   if (widget.type=='chart') {
+                       gridster.add_widget('<li data-widget-id="' + widget.id + '" data-col="' +
+                           widget.x +
+                           '" data-row="' +
+                           widget.y +
+                           '"><div class="gridster-box" id="widget-'+widget.id+'" ></div></li>',
+                           widget.width,
+                           widget.height,
+                           widget.x,
+                           widget.y, false, false, function () {
+
+                               Highcharts.chart($(this).find('.gridster-box').attr('id'), {
+                                   chart: {
+                                       type: 'spline',
+                                       backgroundColor: null,
+                                       style: {
+                                           fontFamily: 'Open Sans'
+                                       }
+                                   },
+                                   colors: ['#f0f0f0'],
+                                   title: {
+                                       text: window.widgets.widgets[$(this).attr('data-widget-id')].name,
+                                       style: {
+                                           fontSize: '20px',
+                                           fontWeight: '300',
+                                           color: 'white',
+                                       }
+                                   },
+                                   xAxis: {
+                                       type: 'datetime',
+                                       tickPixelInterval: 50,
+                                       lineColor: '#fff',
+                                       tickColor: '#fff',
+                                       labels: {
+                                           style: {
+                                               color: '#ffffff',
+                                           }
+                                       }
+                                   },
+                                   yAxis: {
+                                       title: {
+                                           text: ''
+                                       },
+                                       labels: {
+                                           style: {
+                                               color: '#cfcfcf',
+                                           }
+                                       },
+                                       plotLines: [{
+                                           value: 0,
+                                           width: 1,
+                                           color: '#FFFFFF'
+                                       }],
+
+                                   },
+                                   legend: {
+                                       enabled: false
+                                   },
+                                   exporting: {
+                                       enabled: false
+                                   },
+                                   series: [{
+                                       name: window.widgets.widgets[$(this).attr('data-widget-id')].name,
+                                       data: (function (id) {
+                                           // generate an array of random data
+                                           var data = [];
+                                           widget = window.widgets.widgets[id];
+                                           console.log(widget);
+                                           for (k in widget.history) {
+                                               data.push({
+                                                   x: new Date(widget.history[k].df),
+                                                   y: Math.round(widget.history[k].av)
+                                               });
+                                           }
+
+                                           console.log(data);
+                                           return data;
+                                       })($(this).attr('data-widget-id'))
+                                   }],
+                                   responsive: {
+                                       rules: [{
+                                           condition: {
+                                               maxWidth: 500
+                                           },
+                                           chartOptions: {
+                                               legend: {
+                                                   align: 'center',
+                                                   verticalAlign: 'bottom',
+                                                   layout: 'horizontal'
+                                               },
+                                               yAxis: {
+                                                   labels: {
+                                                       align: 'left',
+                                                       x: 0,
+                                                       y: -5
+                                                   },
+                                                   title: {
+                                                       text: null
+                                                   }
+                                               },
+                                               subtitle: {
+                                                   text: null
+                                               },
+                                               credits: {
+                                                   enabled: false
+                                               }
+                                           }
+                                       }]
+                                   }
+                               });
+                           }
+                       );
+                   }
                }
             });
         });

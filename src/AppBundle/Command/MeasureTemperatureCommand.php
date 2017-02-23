@@ -22,7 +22,7 @@ class MeasureTemperatureCommand extends ContainerAwareCommand
         $exec = exec('/usr/bin/python '.__DIR__.'/../../../bin/bmp_i2c.py');
 
         $json = json_decode($exec, true);
-		
+        
         $varService = $this->getContainer()->get('vars');
         $varService->set('inside.temperature', $json['temp']);
         $varService->set('inside.pressure', round($json['press']));

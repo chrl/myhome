@@ -12,62 +12,6 @@
 {% block body %}
     <div class="gridster">
         <ul>
-            <li data-sizey="2" data-sizex="2" data-col="4" data-row="1">
-                <div class="gridster-box">
-                    <div class="title">Temperature</div><div class="value">55&deg;C</div>
-                    <div class="handle-resize"></div>
-                </div>
-            </li>
-            <li data-sizey="1" data-sizex="1" data-col="1" data-row="3">
-                <div class="gridster-box">
-                    <div class="handle-resize"></div>
-                </div>
-            </li>
-            <li data-sizey="1" data-sizex="1" data-col="2" data-row="3">
-                <div class="gridster-box">
-                    <div class="handle-resize"></div>
-                </div>
-            </li>
-            <li data-sizey="2" data-sizex="2" data-col="1" data-row="1">
-                <div class="gridster-box">
-                    <div class="handle-resize"></div>
-                </div>
-            </li>
-            <li data-sizey="1" data-sizex="1" data-col="3" data-row="1">
-                <div class="gridster-box">
-                    <div class="handle-resize"></div>
-                </div>
-            </li>
-            <li data-sizey="1" data-sizex="1" data-col="3" data-row="3">
-                <div class="gridster-box">
-                    <div class="handle-resize"></div>
-                </div>
-            </li>
-            <li data-sizey="1" data-sizex="1" data-col="4" data-row="3">
-                <div class="gridster-box">
-                    <div class="handle-resize"></div>
-                </div>
-            </li>
-            <li data-sizey="1" data-sizex="1" data-col="6" data-row="1">
-                <div class="gridster-box">
-                    <div class="handle-resize"></div>
-                </div>
-            </li>
-            <li data-sizey="1" data-sizex="1" data-col="5" data-row="3">
-                <div class="gridster-box">
-                    <div class="handle-resize"></div>
-                </div>
-            </li>
-            <li data-sizey="1" data-sizex="1" data-col="3" data-row="2">
-                <div class="gridster-box">
-                    <div class="handle-resize"></div>
-                </div>
-            </li>
-            <li data-sizey="1" data-sizex="1" data-col="6" data-row="2">
-                <div class="gridster-box">
-                    <div class="handle-resize"></div>
-                </div>
-            </li>
         </ul>
     </div>
 {% endblock %}
@@ -83,15 +27,42 @@
                 widget_base_dimensions: ['auto', 160],
                 autogenerate_stylesheet: true,
                 min_cols: 1,
-                max_cols: 4,
+                max_cols: 6,
                 widget_margins: [5, 5],
                 resize: {
-                    enabled: true
+                    enabled: true,
+                    stop: function (event, ui, $widget) {
+                        $.post('/dashboard/widgets.json',{'widgets': gridster.serialize()});
+                    }
+                },
+                draggable: {
+                    stop: function (event, ui) {
+                        $.post('/dashboard/widgets.json',{'widgets': gridster.serialize()});
+                    }
                 },
                 serialize_params: function($w, wgd) { return { id: $w.data('widget-id'), col: wgd.col, row: wgd.row, size_x: wgd.size_x, size_y: wgd.size_y } }
             }).data('gridster');
             $('.gridster  ul').css({'padding': '0'});
-            console.log(gridster.serialize());
+            $.get('/dashboard/widgets.json',function(data){
+               for (k in data.widgets) {
+                   widget = data.widgets[k];
+                   console.log(widget);
+                   gridster.add_widget('<li data-widget-id="'+widget.id+'" data-col="'+
+                       widget.x+
+                       '" data-row="'+
+                       widget.y+
+                       '"><div class="gridster-box"><div class="title">'+
+                       widget.name +
+                       '</div><div class="value">'+
+                       widget.value +
+                       '</div><div class="handle-resize"></div></div></li>',
+                       widget.width,
+                       widget.height,
+                       widget.x,
+                       widget.y
+                   );
+               }
+            });
         });
     </script>
 {% endblock %}

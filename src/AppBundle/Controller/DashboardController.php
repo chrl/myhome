@@ -23,7 +23,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * @Route("/dashboard/widgets.json", name="dashboard_widgets")
+     * @Route("/dashboard/widgets.json", methods={"GET"}, name="dashboard_widgets")
      * @param Request $request
      * @return Response
      */
@@ -50,6 +50,39 @@ class DashboardController extends Controller
         $response->setContent(json_encode(array(
             'result' =>'ok',
             'widgets'=> $list,
+        )));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+    /**
+     * @Route("/dashboard/widgets.json", methods={"POST"}, name="dashboard_widgets_save")
+     * @param Request $request
+     * @return Response
+     */
+    public function saveWidgetsAction(Request $request)
+    {
+
+        $widgets = $request->get('widgets');
+
+        foreach ($widgets as $widget) {
+            $w = $this->getDoctrine()->getRepository('AppBundle:Widget')->find($widget['id']);
+            if (!$w) {
+                continue;
+            }
+
+            $w->setWidth($widget['size_x']);
+            $w->setHeight($widget['size_y']);
+            $w->setX($widget['col']);
+            $w->setY($widget['row']);
+
+            $this->getDoctrine()->getManager()->persist($w);
+        }
+
+        $this->getDoctrine()->getManager()->flush();
+
+        $response = new Response();
+        $response->setContent(json_encode(array(
+            'result' =>'ok',
         )));
         $response->headers->set('Content-Type', 'application/json');
         return $response;

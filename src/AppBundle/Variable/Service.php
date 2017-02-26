@@ -100,10 +100,10 @@ class Service
         $q = $em->createQueryBuilder();
         $res = $q->
             select('AVG(vh.value) as av')->
-            addSelect('DATE_FORMAT(vh.time,\'%Y-%m-%d %H:%i\') as df')->
+            addSelect('DATE_FORMAT(vh.time,\'%Y-%m-%d %H:00\') as df')->
             from('AppBundle:VariableHistory', 'vh')->
             where('vh.time >= :date')->
-            setParameter('date', new \DateTime('-24 hour'))->
+            setParameter('date', new \DateTime('-48 hour'))->
             andWhere('vh.var = :var_id')->
             setParameter('var_id', $variable->getId())->
             groupBy('df')->

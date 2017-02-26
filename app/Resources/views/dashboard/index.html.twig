@@ -170,6 +170,14 @@
                                            return data;
                                        })($(this).attr('data-widget-id'))
                                    }],
+                                   plotOptions: {
+                                       series: {
+                                           turboThreshold: 0
+                                       },
+                                       spline: {
+                                           turboThreshold: 0
+                                       }
+                                   },
                                    responsive: {
                                        rules: [{
                                            condition: {

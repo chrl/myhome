@@ -43,5 +43,23 @@ class WidgetControllerTest extends Teardown
 		],$widget);
     }
 
+	public function testWindgetsUpdate()
+	{
+		$client = static::createClient();
+		$client->request('GET', '/dashboard/update.json');
+
+		$this->assertEquals(200, $client->getResponse()->getStatusCode());
+		$widgets = json_decode($client->getResponse()->getContent(),true);
+		$widget = array_shift($widgets['widgets']);
+		unset($widget['id']);
+
+
+		$this->assertEquals([
+			'value' => '20',
+			'type' => 'value',
+			'lastchange' => null,
+		],$widget);
+	}
+
 
 }

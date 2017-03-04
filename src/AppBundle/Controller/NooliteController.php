@@ -101,6 +101,21 @@ class NooliteController extends Controller
                 }
             }
 
+            if ($request->get('cmd')==6) {
+                // turn off, only by pi
+
+                $percent = round((($request->get('d0') - 34)/123) * 100);
+
+                $changeSet = ['state'=>'on','percent'=>$percent];
+                /** @var Action $action */
+                foreach ($actions as $action) {
+                    if ($action->getArguments()=='{"state":"on"}') {
+                        $resultAction = $action;
+                        break;
+                    }
+                }
+            }
+
             if ($request->get('cmd')==2) {
                 // turn on, only by pi
 
@@ -114,6 +129,13 @@ class NooliteController extends Controller
                 }
             }
 
+            if (($changeSet['state'] == 'off') && !isset($changeSet['percent'])) {
+                $changeSet['percent'] = 0;
+            }
+
+            if (($changeSet['state'] == 'on') && !isset($changeSet['percent'])) {
+                $changeSet['percent'] = 100;  // ? I don't really know if they restore their states
+            }
 
             if (!$resultAction) {
                 return $this->sendResponse(true, ['message'=>'State was changed, but no action was found']);

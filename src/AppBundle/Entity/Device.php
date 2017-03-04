@@ -40,7 +40,7 @@ class Device
     /**
      * @ORM\Column(type="simple_array", nullable=true)
      */
-    private $state;
+    private $state = [];
 
     /**
      * @return mixed
@@ -193,6 +193,6 @@ class Device
 
     public function __toString()
     {
-        return $this->getName().'('.implode(', ', $this->getType()).')';
+        return $this->getName().' ('.implode(', ', $this->getType()).')';
     }
 }

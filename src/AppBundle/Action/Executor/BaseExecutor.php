@@ -19,6 +19,9 @@ class BaseExecutor implements ExecutorInterface
     /** @var  Container */
     public $container;
 
+    /** @var  array */
+    public $parameters;
+
     public function setDoctrine($doctrine)
     {
         $this->doctrine = $doctrine;
@@ -27,6 +30,12 @@ class BaseExecutor implements ExecutorInterface
     public function setContainer($container)
     {
         $this->container = $container;
+        return $this;
+    }
+
+    public function setParameters($parameters)
+    {
+        $this->parameters = $parameters;
         return $this;
     }
 

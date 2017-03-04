@@ -66,6 +66,8 @@ class Service
                 throw new \Exception('Unknown executor method: ' . $action->getExecutor().'()');
             }
 
+            $executor->setParameters($changeSet);
+
             try {
                 $result = $executor->{$method}($action);
             } catch (\Exception $exception) {
@@ -89,5 +91,19 @@ class Service
         $this->getDoctrine()->getManager()->flush();
 
         return $this;
+    }
+
+    public function runAction($actionName, array $parameters)
+    {
+        $action = $this->doctrine->getRepository('AppBundle:Action')->findOneBy(['name'=>$actionName]);
+        if (!$action) {
+            throw new \Exception("Action ".$actionName." not found");
+        }
+
+
+        if (isset($parameter['container'])) {
+            $args['container'] = $parameter['container'];
+        }
+        $this->executeReal($action, "internalcall", $parameters);
     }
 }

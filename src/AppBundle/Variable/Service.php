@@ -66,7 +66,9 @@ class Service
         }
 
         if ($this->needSync) {
-            @file_get_contents($this->syncHost.'set/'.$varName.'?value='.$value);
+            if ($var->needSync) {
+                @file_get_contents($this->syncHost . 'set/' . $varName . '?value=' . $value);
+            }
         }
 
         $var->setValue($value);

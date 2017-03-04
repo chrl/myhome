@@ -86,8 +86,10 @@ easy_admin:
         Variable:
             class: AppBundle\Entity\Variable
             label: 'Variables'
+            list:
+                fields: ['id', 'name', 'description', 'needSync','value', 'lastupdate']
             form:
-                fields: ['name', 'description', 'source', 'parser']
+                fields: ['name', 'description','needSync', 'source', 'parser']
         Device:
             class: AppBundle\Entity\Device
         Command:

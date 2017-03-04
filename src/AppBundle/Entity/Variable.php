@@ -61,6 +61,10 @@ class Variable
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Widget", mappedBy="variable")
      */
     public $widgets;
+    /**
+     * @ORM\Column(type="boolean");
+     */
+    public $needSync = true;
 
     /**
      * @return mixed

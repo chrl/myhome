@@ -77,15 +77,17 @@ class Service
 
         $this->getDoctrine()->getManagerForClass('AppBundle:Variable')->persist($var);
 
-        $state = new VariableHistory();
-        $state->setVar($var);
-        $state->setTime(new \DateTime());
-        $state->setValue($value);
+        if ($var->needHistory) {
+            $state = new VariableHistory();
+            $state->setVar($var);
+            $state->setTime(new \DateTime());
+            $state->setValue($value);
 
-        $this->getDoctrine()->getManagerForClass('AppBundle:VariableHistory')->persist($state);
+            $this->getDoctrine()->getManagerForClass('AppBundle:VariableHistory')->persist($state);
+            $this->getDoctrine()->getManagerForClass('AppBundle:VariableHistory')->flush();
+        }
 
         $this->getDoctrine()->getManagerForClass('AppBundle:Variable')->flush();
-        $this->getDoctrine()->getManagerForClass('AppBundle:VariableHistory')->flush();
 
         return $value;
     }
@@ -113,5 +115,28 @@ class Service
             getQuery();
 
         return $res->getArrayResult();
+    }
+
+    /**
+     * @param Variable $variable
+     * @return array
+     */
+    public function getLastValue(Variable $variable)
+    {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+
+        $q = $em->createQueryBuilder();
+        $res = $q->
+        select('vh.value as av')->
+        addSelect('vh.time as df')->
+        from('AppBundle:VariableHistory', 'vh')->
+        where('vh.var = :var_id')->
+        setParameter('var_id', $variable->getId())->
+        orderBy('df', 'desc')->
+        setMaxResults(1)->
+        getQuery();
+
+        return $res->getSingleResult();
     }
 }

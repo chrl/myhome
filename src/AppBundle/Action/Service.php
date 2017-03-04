@@ -8,6 +8,7 @@
 
 namespace AppBundle\Action;
 
+use AppBundle\Action\Executor\ExecutorInterface;
 use AppBundle\Entity\Action;
 use AppBundle\Entity\ActionHistory;
 use Doctrine\Bundle\DoctrineBundle\Registry;
@@ -33,10 +34,40 @@ class Service
         return $this->execute($action, $source, $changeSet, true);
     }
 
+    public function executeReal(Action $action, $source, $arguments)
+    {
+        return $this->execute($action, $source, $arguments, false);
+    }
+
     public function execute(Action $action, $source = 'internal', array $changeSet = [], $virtual = false)
     {
 
         //TODO: Find and run executor here
+
+        if (!$virtual) {
+            list($executor, $method) = explode(':', $action->getExecutor());
+
+            $executor = 'AppBundle\Action\Executor\\' . ucfirst($executor);
+
+            if (!class_exists($executor)) {
+                throw new \Exception('Unknown executor: ' . $executor);
+            }
+
+            /** @var ExecutorInterface $executor */
+            $executor = new $executor();
+            $executor->setDoctrine($this->getDoctrine());
+
+            if (isset($changeSet['container'])) {
+                $executor->setContainer($changeSet['container']);
+                unset($changeSet['container']);
+            }
+
+            if (!method_exists($executor, $method)) {
+                throw new \Exception('Unknown executor method: ' . $action->getExecutor().'()');
+            }
+
+            $result = $executor->{$method}($action);
+        }
 
         $state = new ActionHistory();
         $state->setAction($action);

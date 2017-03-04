@@ -20,8 +20,8 @@ class NooliteController extends Controller
         5 => ['name'=>'noolite.toilet','source'=>'pi'],
         6 => ['name'=>'noolite.diningroom','source'=>'pi'],
         7 => ['name'=>'noolite.kitchen','source'=>'pi'],
-		9 => ['name'=>'noolite.toilet','source'=>'human,upper'],
-		10 => ['name'=>'noolite.toilet','source'=>'human,lower'],
+        9 => ['name'=>'noolite.toilet','source'=>'human,upper'],
+        10 => ['name'=>'noolite.toilet','source'=>'human,lower'],
     ];
 
     /**

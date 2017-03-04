@@ -67,6 +67,11 @@ class Variable
     public $needSync = true;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    public $needHistory = false;
+
+    /**
      * @return mixed
      */
     public function getId()

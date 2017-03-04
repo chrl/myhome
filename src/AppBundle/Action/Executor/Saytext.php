@@ -41,7 +41,7 @@ class Saytext extends BaseExecutor implements ExecutorInterface
 
         $res = exec('which mplayer');
 
-        exec($res." -really-quiet -noconsolecontrols ".$file);
+        exec($res." -really-quiet -noconsolecontrols ".$file." >/dev/null 2>&1");
 
         return $result;
     }

@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="CommandRepository")
+ * @ORM\Entity()
  * @ORM\Table(name="commands")
  */
 class Command

@@ -66,7 +66,12 @@ class Service
                 throw new \Exception('Unknown executor method: ' . $action->getExecutor().'()');
             }
 
-            $result = $executor->{$method}($action);
+            try {
+                $result = $executor->{$method}($action);
+            } catch (\Exception $exception) {
+                $result = $exception->getMessage();
+            }
+            $changeSet['result']=$result;
         }
 
         $state = new ActionHistory();

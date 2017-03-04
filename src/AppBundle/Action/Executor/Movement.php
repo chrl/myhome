@@ -19,7 +19,11 @@ class Movement extends BaseExecutor implements ExecutorInterface
         foreach ($params as $param) {
             list($p,$v) = explode(':', $param);
             if ($p=='variable') {
-                $variable = $this->getDoctrine()->getManager()->getRepository('AppBundle:Variable')->findOneBy(['name'=>$v]);
+                $variable = $this->
+                                getDoctrine()->
+                                getManager()->
+                                getRepository('AppBundle:Variable')->
+                                findOneBy(['name'=>$v]);
                 break;
             }
         }

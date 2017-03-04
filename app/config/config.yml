@@ -96,4 +96,7 @@ easy_admin:
             class: AppBundle\Entity\Command
         Widget:
             class: AppBundle\Entity\Widget
+        Action:
+            class: AppBundle\Entity\Action
+
 

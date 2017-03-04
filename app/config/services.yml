@@ -10,4 +10,7 @@ services:
     vars:
         class: AppBundle\Variable\Service
         arguments: ["@doctrine", "%syncronize_vars%", "%syncronize_host%"]
-
+    actions:
+        class: AppBundle\Action\Service
+        arguments: ["@doctrine"]
+        

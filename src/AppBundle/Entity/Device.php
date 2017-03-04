@@ -28,10 +28,95 @@ class Device
      */
     private $alias;
     /**
-     * @ORM\Column(type="simple_array")
+     * @ORM\Column(type="simple_array", nullable=true)
      */
     private $type;
 
+    /**
+     * @ORM\Column(type="simple_array", nullable=true)
+     */
+    private $params;
+
+    /**
+     * @ORM\Column(type="simple_array", nullable=true)
+     */
+    private $state;
+
+    /**
+     * @return mixed
+     */
+    public function getState()
+    {
+        $tmp = [];
+        foreach ($this->state as $key => $value) {
+            $value = explode(':', $value);
+            $tmp[$value[0]] = $value[1];
+        }
+
+        return $tmp;
+    }
+
+    /**
+     * @param mixed $state
+     * @return Device
+     */
+    public function setState($state)
+    {
+
+        $tmp = [];
+
+        foreach ($state as $key => $value) {
+            if (is_numeric($key)) {
+                $tmp[] = $value;
+            } else {
+                $tmp[] = $key.':'.$value;
+            }
+        }
+
+        $this->state = $tmp;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+    /**
+     * @param mixed $params
+     * @return Device
+     */
+    public function setParams($params)
+    {
+        $this->params = $params;
+        return $this;
+    }
+
+    /**
+     * @return [Action]
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
+    /**
+     * @param mixed $actions
+     * @return Device
+     */
+    public function setActions($actions)
+    {
+        $this->actions = $actions;
+        return $this;
+    }
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Action", mappedBy="device")
+     */
+    private $actions;
 
 
     /**
@@ -104,5 +189,10 @@ class Device
     {
         $this->type = $type;
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getName().'('.implode(', ', $this->getType()).')';
     }
 }

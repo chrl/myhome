@@ -86,6 +86,8 @@ easy_admin:
         Variable:
             class: AppBundle\Entity\Variable
             label: 'Variables'
+            form:
+                fields: ['name', 'description', 'source', 'parser']
         Device:
             class: AppBundle\Entity\Device
         Command:

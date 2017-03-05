@@ -25,6 +25,29 @@ class Action
     /**
      * @ORM\Column(type="string", length=100)
      */
+    private $alias;
+
+    /**
+     * @return mixed
+     */
+    public function getAlias()
+    {
+        return $this->alias;
+    }
+
+    /**
+     * @param mixed $alias
+     * @return Action
+     */
+    public function setAlias($alias)
+    {
+        $this->alias = $alias;
+        return $this;
+    }
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
     private $executor;
 
     /**

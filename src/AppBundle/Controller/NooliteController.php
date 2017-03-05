@@ -72,7 +72,8 @@ class NooliteController extends Controller
 
                     /** @var Action $action */
                     foreach ($actions as $action) {
-                        if ($action->getArguments()=='{"state":"on"}') {
+                        $args = json_decode($action->getArguments(), true);
+                        if (isset($args['state']) && ($args['state']=='on')) {
                             $resultAction = $action;
                             break;
                         }
@@ -82,7 +83,8 @@ class NooliteController extends Controller
                     $changeSet = ['state'=>'off'];
                     /** @var Action $action */
                     foreach ($actions as $action) {
-                        if ($action->getArguments()=='{"state":"off"}') {
+                        $args = json_decode($action->getArguments(), true);
+                        if (isset($args['state']) && ($args['state']=='off')) {
                             $resultAction = $action;
                             break;
                         }
@@ -96,7 +98,8 @@ class NooliteController extends Controller
                 $changeSet = ['state'=>'off'];
                 /** @var Action $action */
                 foreach ($actions as $action) {
-                    if ($action->getArguments()=='{"state":"off"}') {
+                    $args = json_decode($action->getArguments(), true);
+                    if (isset($args['state']) && ($args['state']=='off')) {
                         $resultAction = $action;
                         break;
                     }
@@ -111,7 +114,8 @@ class NooliteController extends Controller
                 $changeSet = ['state'=>'on','percent'=>$percent];
                 /** @var Action $action */
                 foreach ($actions as $action) {
-                    if ($action->getArguments()=='{"state":"on"}') {
+                    $args = json_decode($action->getArguments(), true);
+                    if (isset($args['state']) && ($args['state']=='on')) {
                         $resultAction = $action;
                         break;
                     }
@@ -124,7 +128,8 @@ class NooliteController extends Controller
                 $changeSet = ['state'=>'on'];
                 /** @var Action $action */
                 foreach ($actions as $action) {
-                    if ($action->getArguments()=='{"state":"on"}') {
+                    $args = json_decode($action->getArguments(), true);
+                    if (isset($args['state']) && ($args['state']=='on')) {
                         $resultAction = $action;
                         break;
                     }

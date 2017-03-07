@@ -92,11 +92,10 @@ easy_admin:
                 fields: ['name', 'description','needSync', 'needHistory', 'source', 'parser']
         Device:
             class: AppBundle\Entity\Device
-        Command:
-            class: AppBundle\Entity\Command
         Widget:
             class: AppBundle\Entity\Widget
         Action:
             class: AppBundle\Entity\Action
-
+        Hook:
+            class: AppBundle\Entity\VarHook
 

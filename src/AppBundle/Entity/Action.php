@@ -71,6 +71,11 @@ class Action
      */
     public $history;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\VarHook", mappedBy="action")
+     */
+    public $hooks;
+
 
     /**
      * @return mixed

@@ -12,4 +12,5 @@ interface ExecutorInterface
 {
     public function setDoctrine($doctrine);
     public function setContainer($container);
+    public function setParameters($params);
 }

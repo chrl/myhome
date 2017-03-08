@@ -19,7 +19,9 @@ class ActionRunnerTest extends Teardown
 		$fixture->load($entityManager);
 	}
 
-
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function testAddVarValue()
 	{
 		$client = static::createClient();

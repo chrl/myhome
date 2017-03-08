@@ -33,7 +33,7 @@ class LoadActionData implements FixtureInterface
 
         $action = new Action();
 
-        $action->setArguments(json_encode(['file'=>'/tmp/testfile.log','text'=>'testtext']));
+        $action->setArguments(json_encode(['file'=>'/tmp/testfile.log', 'text'=>'testtext']));
         $action->setType('real');
         $action->setAlias('file.write');
         $action->setDevice($device);

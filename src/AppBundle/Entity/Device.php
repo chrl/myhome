@@ -146,7 +146,7 @@ class Device
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      * @return Device
      */
     public function setName($name)
@@ -164,7 +164,7 @@ class Device
     }
 
     /**
-     * @param mixed $alias
+     * @param string $alias
      * @return Device
      */
     public function setAlias($alias)

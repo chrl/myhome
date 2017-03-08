@@ -15,11 +15,13 @@ class LoadActionData implements FixtureInterface
     {
         $variable = new Variable();
 
-        $variable->setName('temperature');
+        $variable->setName('hooktest');
         $variable->setDescription('test temperature metric');
         $variable->setSource('internal');
         $variable->setParser('Simple');
         $variable->setValue('20');
+        $variable->needHistory = true;
+        $variable->needSync = false;
 
         $manager->persist($variable);
 

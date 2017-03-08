@@ -34,6 +34,9 @@ class Service
         return $this->execute($action, $source, $changeSet, true);
     }
 
+    /**
+     * @param string $source
+     */
     public function executeReal(Action $action, $source, $arguments)
     {
         return $this->execute($action, $source, $arguments, false);
@@ -47,10 +50,10 @@ class Service
         if (!$virtual) {
             list($executor, $method) = explode(':', $action->getExecutor());
 
-            $executor = 'AppBundle\Action\Executor\\' . ucfirst($executor);
+            $executor = 'AppBundle\Action\Executor\\'.ucfirst($executor);
 
             if (!class_exists($executor)) {
-                throw new \Exception('Unknown executor: ' . $executor);
+                throw new \Exception('Unknown executor: '.$executor);
             }
 
             /** @var ExecutorInterface $executor */
@@ -63,7 +66,7 @@ class Service
             }
 
             if (!method_exists($executor, $method)) {
-                throw new \Exception('Unknown executor method: ' . $action->getExecutor().'()');
+                throw new \Exception('Unknown executor method: '.$action->getExecutor().'()');
             }
 
             $executor->setParameters($changeSet);
@@ -73,7 +76,7 @@ class Service
             } catch (\Exception $exception) {
                 $result = $exception->getMessage();
             }
-            $changeSet['result']=$result;
+            $changeSet['result'] = $result;
         }
 
         $state = new ActionHistory();

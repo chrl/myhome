@@ -13,15 +13,15 @@ class NooliteController extends Controller
 
     private $channelMap = [
 
-        1 => ['name'=>'noolite.main','source'=>'human'],
-        2 => ['name'=>'noolite.kitchen','source'=>'human'],
-        3 => ['name'=>'noolite.diningroom','source'=>'human'],
-        4 => ['name'=>'noolite.main','source'=>'pi'],
-        5 => ['name'=>'noolite.toilet','source'=>'pi'],
-        6 => ['name'=>'noolite.diningroom','source'=>'pi'],
-        7 => ['name'=>'noolite.kitchen','source'=>'pi'],
-        9 => ['name'=>'noolite.toilet','source'=>'human,upper'],
-        10 => ['name'=>'noolite.toilet','source'=>'human,lower'],
+        1 => ['name'=>'noolite.main', 'source'=>'human'],
+        2 => ['name'=>'noolite.kitchen', 'source'=>'human'],
+        3 => ['name'=>'noolite.diningroom', 'source'=>'human'],
+        4 => ['name'=>'noolite.main', 'source'=>'pi'],
+        5 => ['name'=>'noolite.toilet', 'source'=>'pi'],
+        6 => ['name'=>'noolite.diningroom', 'source'=>'pi'],
+        7 => ['name'=>'noolite.kitchen', 'source'=>'pi'],
+        9 => ['name'=>'noolite.toilet', 'source'=>'human,upper'],
+        10 => ['name'=>'noolite.toilet', 'source'=>'human,lower'],
     ];
 
     /**
@@ -60,7 +60,7 @@ class NooliteController extends Controller
             $changeSet = [];
 
 
-            if ($request->get('cmd')==4) {
+            if ($request->get('cmd') == 4) {
                 // reverse state, only by human
 
                 $oldState = $device->getState();
@@ -73,7 +73,7 @@ class NooliteController extends Controller
                     /** @var Action $action */
                     foreach ($actions as $action) {
                         $args = json_decode($action->getArguments(), true);
-                        if (isset($args['state']) && ($args['state']=='on')) {
+                        if (isset($args['state']) && ($args['state'] == 'on')) {
                             $resultAction = $action;
                             break;
                         }
@@ -84,7 +84,7 @@ class NooliteController extends Controller
                     /** @var Action $action */
                     foreach ($actions as $action) {
                         $args = json_decode($action->getArguments(), true);
-                        if (isset($args['state']) && ($args['state']=='off')) {
+                        if (isset($args['state']) && ($args['state'] == 'off')) {
                             $resultAction = $action;
                             break;
                         }
@@ -92,44 +92,44 @@ class NooliteController extends Controller
                 }
             }
 
-            if ($request->get('cmd')==0) {
+            if ($request->get('cmd') == 0) {
                 // turn off, only by pi
 
                 $changeSet = ['state'=>'off'];
                 /** @var Action $action */
                 foreach ($actions as $action) {
                     $args = json_decode($action->getArguments(), true);
-                    if (isset($args['state']) && ($args['state']=='off')) {
+                    if (isset($args['state']) && ($args['state'] == 'off')) {
                         $resultAction = $action;
                         break;
                     }
                 }
             }
 
-            if ($request->get('cmd')==6) {
+            if ($request->get('cmd') == 6) {
                 // turn off, only by pi
 
-                $percent = round((($request->get('d0') - 34)/123) * 100);
+                $percent = round((($request->get('d0') - 34)/123)*100);
 
-                $changeSet = ['state'=>'on','percent'=>$percent];
+                $changeSet = ['state'=>'on', 'percent'=>$percent];
                 /** @var Action $action */
                 foreach ($actions as $action) {
                     $args = json_decode($action->getArguments(), true);
-                    if (isset($args['state']) && ($args['state']=='on')) {
+                    if (isset($args['state']) && ($args['state'] == 'on')) {
                         $resultAction = $action;
                         break;
                     }
                 }
             }
 
-            if ($request->get('cmd')==2) {
+            if ($request->get('cmd') == 2) {
                 // turn on, only by pi
 
                 $changeSet = ['state'=>'on'];
                 /** @var Action $action */
                 foreach ($actions as $action) {
                     $args = json_decode($action->getArguments(), true);
-                    if (isset($args['state']) && ($args['state']=='on')) {
+                    if (isset($args['state']) && ($args['state'] == 'on')) {
                         $resultAction = $action;
                         break;
                     }
@@ -141,7 +141,7 @@ class NooliteController extends Controller
             }
 
             if (($changeSet['state'] == 'on') && !isset($changeSet['percent'])) {
-                $changeSet['percent'] = 100;  // ? I don't really know if they restore their states
+                $changeSet['percent'] = 100; // ? I don't really know if they restore their states
             }
 
             if (!$resultAction) {

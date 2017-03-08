@@ -9,7 +9,7 @@ class Saytext extends BaseExecutor implements ExecutorInterface
 {
     public function say(Action $action)
     {
-        $args =  json_decode($action->getArguments(), true);
+        $args = json_decode($action->getArguments(), true);
 
         if (isset($this->parameters['text'])) {
             $text = $this->parameters['text'];
@@ -36,7 +36,7 @@ class Saytext extends BaseExecutor implements ExecutorInterface
                 urlencode($text)."&tl=De_de");
             file_put_contents($file, $res);
 
-            $result= 'Saved in cache';
+            $result = 'Saved in cache';
         }
 
         $res = exec('which mplayer');

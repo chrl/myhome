@@ -18,6 +18,8 @@ class LoadVariableData implements FixtureInterface
         $variable->setParser('Simple');
         $variable->setValue('20');
 
+        $variable->needHistory = true;
+
         $manager->persist($variable);
 
 
@@ -28,6 +30,8 @@ class LoadVariableData implements FixtureInterface
         $variable->setSource('internal');
         $variable->setParser('Argument');
         $variable->setValue('70');
+
+        $variable->needHistory = true;
 
         $manager->persist($variable);
 
@@ -49,6 +53,8 @@ class LoadVariableData implements FixtureInterface
         $variable->setParser('Argument');
         $variable->setValue('70');
 
+        $variable->needHistory = true;
+
         $manager->persist($variable);
 
         $variable = new Variable();
@@ -58,6 +64,7 @@ class LoadVariableData implements FixtureInterface
         $variable->setSource('internal');
         $variable->setParser('Argument');
         $variable->setValue('70');
+        $variable->needHistory = true;
 
         $manager->persist($variable);
 

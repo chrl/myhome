@@ -15,6 +15,18 @@ class FileWriter extends BaseExecutor implements ExecutorInterface
             $parameters[$k] = $this->parameters[$k];
         }
 
+        file_put_contents($parameters['file'], $parameters['text']);
+
         return "File written successfully";
+    }
+
+    public function decideTrue()
+    {
+        return true;
+    }
+
+    public function decideFalse()
+    {
+        return false;
     }
 }

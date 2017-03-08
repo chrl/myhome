@@ -2,11 +2,10 @@
 
 namespace Tests\AppBundle\Controller;
 
-use AppBundle\DataFixtures\ORM\LoadVariableData;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use AppBundle\DataFixtures\ORM\LoadActionData;
 use Tests\AppBundle\Teardown;
 
-class VarControllerTest extends Teardown
+class ActionRunnerTest extends Teardown
 {
 
 	public function setUp()
@@ -16,26 +15,10 @@ class VarControllerTest extends Teardown
 		$doctrine = $container->get('doctrine');
 		$entityManager = $doctrine->getManager();
 
-		$fixture = new LoadVariableData();
+		$fixture = new LoadActionData();
 		$fixture->load($entityManager);
 	}
 
-	public function testEmptyVars()
-    {
-        $client = static::createClient();
-        $client->request('GET', '/var');
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"result":"ok","response":{"temperature":"20","humidity":"70","internet.upload":"70","internet.download":"70","internet.ping":"70"}}',$client->getResponse()->getContent());
-    }
-
-	public function testUnexistentVars()
-	{
-		$client = static::createClient();
-		$client->request('GET', '/var/unexistent');
-
-		$this->assertEquals(500, $client->getResponse()->getStatusCode());
-	}
 
 	public function testAddVarValue()
 	{
@@ -57,17 +40,8 @@ class VarControllerTest extends Teardown
 		$this->assertEquals(200, $client->getResponse()->getStatusCode());
 		$this->assertEquals('{"result":"ok","response":{"name":"temperature","value":"'.$value.'"}}',$client->getResponse()->getContent());
 
-	}
+		$this->assertFileExists('/tmp/testfile.log');
+		$this->assertEquals(file_get_contents('/tmp/testfile.log'),"test text");
 
-	public function testSetArgumentValue()
-	{
-		$client = static::createClient();
-
-		$value = rand(0,300);
-		$varService = $client->getContainer()->get('vars');
-
-		$varService->set('humidity',$value);
-
-		$this->assertEquals($value,$varService->get('humidity')->getValue());
 	}
 }

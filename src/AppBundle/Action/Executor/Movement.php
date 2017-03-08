@@ -17,8 +17,8 @@ class Movement extends BaseExecutor implements ExecutorInterface
         $variable = false;
 
         foreach ($params as $param) {
-            list($p,$v) = explode(':', $param);
-            if ($p=='variable') {
+            list($p, $v) = explode(':', $param);
+            if ($p == 'variable') {
                 $variable = $this->
                                 getDoctrine()->
                                 getManager()->

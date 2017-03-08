@@ -13,7 +13,7 @@ class Noolite extends BaseExecutor implements ExecutorInterface
         $deviceParams = $device->getParams();
         $ch = 0;
         foreach ($deviceParams as $deviceParam) {
-            list($param,$value) = explode(':', $deviceParam);
+            list($param, $value) = explode(':', $deviceParam);
             if ($param == 'channel') {
                 $ch = $value;
                 break;

@@ -70,7 +70,7 @@ class Service
 
         if ($this->needSync) {
             if ($var->needSync) {
-                @file_get_contents($this->syncHost . 'set/' . $varName . '?value=' . $value);
+                @file_get_contents($this->syncHost.'set/'.$varName.'?value='.$value);
             }
         }
 
@@ -99,10 +99,10 @@ class Service
         foreach ($hooks as $varHook) {
             list($executor, $method) = explode(':', $varHook->getExecutor());
 
-            $executor = 'AppBundle\Action\Executor\\' . ucfirst($executor);
+            $executor = 'AppBundle\Action\Executor\\'.ucfirst($executor);
 
             if (!class_exists($executor)) {
-                throw new \Exception('Unknown executor: ' . $executor);
+                throw new \Exception('Unknown executor: '.$executor);
             }
 
             /** @var ExecutorInterface $executor */
@@ -111,7 +111,7 @@ class Service
 
 
             if (!method_exists($executor, $method)) {
-                throw new \Exception('Unknown executor method: ' . $varHook->getExecutor().'()');
+                throw new \Exception('Unknown executor method: '.$varHook->getExecutor().'()');
             }
 
             $executor->setParameters(json_decode($varHook->getArguments(), true));

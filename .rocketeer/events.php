@@ -3,7 +3,7 @@
 use Rocketeer\Facades\Rocketeer;
 
 Rocketeer::before('dependencies', array(
-  'composer self-update',
+  'sudo composer self-update',
 ));
 
 Rocketeer::before("dependencies", array(
@@ -12,4 +12,6 @@ Rocketeer::before("dependencies", array(
 
 Rocketeer::after("deploy", array(
     'bin/console doctrine:schema:update --force',
+	'sudo service nginx restart',
+	'sudo service php7.0-fpm restart',
 ));

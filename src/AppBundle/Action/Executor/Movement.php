@@ -3,6 +3,7 @@
 namespace AppBundle\Action\Executor;
 
 use AppBundle\Entity\Action;
+use AppBundle\Entity\VarHook;
 use AppBundle\Entity\Variable;
 
 class Movement extends BaseExecutor implements ExecutorInterface

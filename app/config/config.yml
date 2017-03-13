@@ -96,6 +96,4 @@ easy_admin:
             class: AppBundle\Entity\Widget
         Action:
             class: AppBundle\Entity\Action
-        Hook:
-            class: AppBundle\Entity\VarHook
 

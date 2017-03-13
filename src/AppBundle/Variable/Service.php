@@ -92,46 +92,6 @@ class Service
 
         $this->getDoctrine()->getManagerForClass('AppBundle:Variable')->flush();
 
-        // hooks run
-
-        $hooks = $this->getDoctrine()->getManager()->getRepository('AppBundle:VarHook')->findBy(['variable'=>$var]);
-
-        foreach ($hooks as $varHook) {
-            list($executor, $method) = explode(':', $varHook->getExecutor());
-
-            $executor = 'AppBundle\Action\Executor\\'.ucfirst($executor);
-
-            if (!class_exists($executor)) {
-                throw new \Exception('Unknown executor: '.$executor);
-            }
-
-            /** @var ExecutorInterface $executor */
-            $executor = new $executor();
-            $executor->setDoctrine($this->getDoctrine());
-
-
-            if (!method_exists($executor, $method)) {
-                throw new \Exception('Unknown executor method: '.$varHook->getExecutor().'()');
-            }
-
-            $executor->setParameters(json_decode($varHook->getArguments(), true));
-
-            try {
-                $result = $executor->{$method}($varHook);
-            } catch (\Exception $exception) {
-                $result = $exception->getMessage();
-            }
-
-            if ($varHook->getType() == 'decider') {
-                if ($result === true) {
-                    $this->actionService->executeReal(
-                        $varHook->getAction(),
-                        'hook',
-                        json_decode($varHook->getArguments(), true)
-                    );
-                }
-            }
-        }
 
         return $value;
     }

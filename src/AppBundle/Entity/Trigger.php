@@ -28,6 +28,29 @@ class Trigger
     private $name;
 
     /**
+     * @return boolean
+     */
+    public function getIsEnabled()
+    {
+        return $this->isEnabled;
+    }
+
+    /**
+     * @param boolean $isEnabled
+     * @return Trigger
+     */
+    public function setIsEnabled($isEnabled)
+    {
+        $this->isEnabled = $isEnabled;
+        return $this;
+    }
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isEnabled;
+
+    /**
      * @ORM\Column(type="string", length = 2)
      */
     private $sign;

@@ -102,6 +102,7 @@ easy_admin:
                 fields:
                     - id
                     - name
+                    - isEnabled
                     - { label: 'Active?', property: 'state', type: 'boolean' }
                     - variable
                     - expression

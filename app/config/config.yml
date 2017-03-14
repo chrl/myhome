@@ -96,4 +96,12 @@ easy_admin:
             class: AppBundle\Entity\Widget
         Action:
             class: AppBundle\Entity\Action
-
+        Trigger:
+            class: AppBundle\Entity\Trigger
+            list:
+                fields:
+                    - id
+                    - name
+                    - { label: 'Active?', property: 'state', type: 'boolean' }
+                    - variable
+                    - expression

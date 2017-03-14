@@ -3,6 +3,7 @@
 namespace AppBundle\Variable;
 
 use AppBundle\Action\Executor\ExecutorInterface;
+use AppBundle\Entity\Trigger;
 use AppBundle\Entity\Variable;
 use AppBundle\Entity\VariableHistory;
 use AppBundle\Variable\Parser\ParserInterface;
@@ -92,6 +93,48 @@ class Service
 
         $this->getDoctrine()->getManagerForClass('AppBundle:Variable')->flush();
 
+        // Check triggers
+
+        $triggers = $this->getDoctrine()->getManager()->getRepository('AppBundle:Trigger')->findBy(['variable'=>$var]);
+
+        /** @var Trigger $trigger */
+        foreach ($triggers as $trigger) {
+            if ($trigger->getState() == false) {
+                if ($trigger->checkState()) {
+                    $trigger->setState(true);
+
+
+                    if ($trigger->onActivate) {
+                        $tParams = json_decode($trigger->activateParams, true);
+                        $tParams['variable']=$var->getValue();
+                        $this->actionService->executeReal(
+                            $trigger->onActivate,
+                            'trigger:activate',
+                            $tParams
+                        );
+                    }
+                }
+            } else {
+                if (!$trigger->checkState()) {
+                    $trigger->setState(false);
+
+                    // Deactivation hooks
+                    if ($trigger->onDeactivate) {
+                        $tParams = json_decode($trigger->deactivateParams, true);
+                        $tParams['variable']=$var->getValue();
+
+                        $this->actionService->executeReal(
+                            $trigger->onDeactivate,
+                            'trigger:deactivate',
+                            $tParams
+                        );
+                    }
+                }
+            }
+
+            $this->getDoctrine()->getManagerForClass('AppBundle:Trigger')->persist($trigger);
+            $this->getDoctrine()->getManager()->flush();
+        }
 
         return $value;
     }

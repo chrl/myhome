@@ -210,4 +210,9 @@ class Variable
     {
         return $this->getName().' ('.$this->getValue().')';
     }
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Trigger", mappedBy="variable")
+     */
+    public $triggers;
 }

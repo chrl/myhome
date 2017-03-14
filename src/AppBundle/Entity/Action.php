@@ -71,6 +71,16 @@ class Action
      */
     public $history;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Trigger", mappedBy="onActivate")
+     */
+    public $activateTriggers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Trigger", mappedBy="onDeactivate")
+     */
+    public $deactivateTriggers;
+
 
     /**
      * @return mixed

@@ -95,7 +95,16 @@ class Service
 
         // Check triggers
 
-        $triggers = $this->getDoctrine()->getManager()->getRepository('AppBundle:Trigger')->findBy(['variable'=>$var]);
+        $triggers = $this->
+                        getDoctrine()->
+                        getManager()->
+                        getRepository('AppBundle:Trigger')->
+                        findBy(
+                            [
+                                'variable'=>$var,
+                                'isEnabled'=>true
+                            ]
+                        );
 
         /** @var Trigger $trigger */
         foreach ($triggers as $trigger) {

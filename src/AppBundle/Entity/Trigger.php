@@ -48,7 +48,7 @@ class Trigger
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isEnabled;
+    private $isEnabled = true;
 
     /**
      * @ORM\Column(type="string", length = 2)

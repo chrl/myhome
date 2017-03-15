@@ -19,7 +19,7 @@ install:
 before_script: echo 'error_reporting = E_ALL ^ E_DEPRECATED' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 script:
   - vendor/bin/phpcs --colors --standard=PSR2 src/
-  - phpunit --coverage-clover=coverage.clover
+  - vendor/bin/phpunit --coverage-clover=coverage.clover
 after_script:
   - wget -q https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover

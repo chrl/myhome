@@ -12,5 +12,5 @@ services:
         arguments: ["@doctrine", "@actions", "%syncronize_vars%", "%syncronize_host%"]
     actions:
         class: AppBundle\Action\Service
-        arguments: ["@doctrine"]
+        arguments: ["@doctrine", "@service_container"]
         

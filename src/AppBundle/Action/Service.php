@@ -17,10 +17,12 @@ class Service
 {
 
     private $doctrine;
+    private $container;
 
-    public function __construct(Registry $doctrine)
+    public function __construct(Registry $doctrine, $container)
     {
         $this->doctrine = $doctrine;
+        $this->container = $container;
     }
 
     private function getDoctrine()
@@ -60,10 +62,9 @@ class Service
             $executor = new $executor();
             $executor->setDoctrine($this->getDoctrine());
 
-            if (isset($changeSet['container'])) {
-                $executor->setContainer($changeSet['container']);
-                unset($changeSet['container']);
-            }
+            $executor->setContainer($this->container);
+            unset($changeSet['container']);
+
 
             if (!method_exists($executor, $method)) {
                 throw new \Exception('Unknown executor method: '.$action->getExecutor().'()');

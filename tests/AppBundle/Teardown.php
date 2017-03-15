@@ -22,7 +22,7 @@ class Teardown extends WebTestCase
 		$doctrine = $container->get('doctrine');
 		$entityManager = $doctrine->getManager();
 
-		$vars = $entityManager->getRepository('AppBundle:VarHook')->findAll();
+		$vars = $entityManager->getRepository('AppBundle:Trigger')->findAll();
 		/** @var Variable $var */
 		foreach ($vars as $var) {
 			$entityManager->remove($var);

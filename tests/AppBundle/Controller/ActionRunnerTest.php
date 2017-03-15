@@ -17,6 +17,10 @@ class ActionRunnerTest extends Teardown
 
 		$fixture = new LoadActionData();
 		$fixture->load($entityManager);
+
+		if (file_exists("/tmp/testfile.log")) {
+			unlink("/tmp/testfile.log");
+		}
 	}
 
 	/**
@@ -26,7 +30,7 @@ class ActionRunnerTest extends Teardown
 	{
 		$client = static::createClient();
 
-		$value = rand(1,300);
+		$value = rand(25,300);
 
 		$client->request('GET', '/set/hooktest');
 		$this->assertEquals('{"result":"ok","response":{"message":"Cannot set variable, maybe value param is missing?"}}',$client->getResponse()->getContent());
@@ -43,7 +47,12 @@ class ActionRunnerTest extends Teardown
 		$this->assertEquals('{"result":"ok","response":{"name":"hooktest","value":"'.$value.'"}}',$client->getResponse()->getContent());
 
 		$this->assertFileExists('/tmp/testfile.log');
-		$this->assertEquals(file_get_contents('/tmp/testfile.log'),"test text");
+		$this->assertEquals(file_get_contents('/tmp/testfile.log'),"onActivate text");
+
+		$client->request('GET', '/set/hooktest?value=5');
+		$this->assertFileExists('/tmp/testfile.log');
+		$this->assertEquals(file_get_contents('/tmp/testfile.log'),"onDeactivate text");
+
 
 	}
 }

@@ -4,7 +4,7 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Action;
 use AppBundle\Entity\Device;
-use AppBundle\Entity\VarHook;
+use AppBundle\Entity\Trigger;
 use AppBundle\Entity\Variable;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -42,15 +42,21 @@ class LoadActionData implements FixtureInterface
 
         $manager->persist($action);
 
-        $varHook = new VarHook();
-        $varHook->setVariable($variable);
-        $varHook->setAction($action);
-        $varHook->setName("Test variable hook");
-        $varHook->setType("decider");
-        $varHook->setExecutor("FileWriter:decideTrue");
-        $varHook->setArguments('{"text":"test text"}');
+        $trigger = new Trigger();
+        $trigger->setVariable($variable);
+        $trigger->setIsEnabled(true);
+        $trigger->setSign('>');
+        $trigger->setState(false);
+        $trigger->setValue(20);
+        $trigger->setName("Test variable hook");
+        $trigger->onActivate = $action;
+        $trigger->activateParams = '{"text":"onActivate text"}';
 
-        $manager->persist($varHook);
+        $trigger->onDeactivate = $action;
+        $trigger->deactivateParams = '{"text":"onDeactivate text"}';
+
+
+        $manager->persist($trigger);
 
 
         $manager->flush();

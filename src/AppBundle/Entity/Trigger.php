@@ -12,7 +12,7 @@ class Trigger
 {
 
     public $allowedOperators = [
-        '>','<','>=','<=','==','!='
+        '>', '<', '>=', '<=', '==', '!='
     ];
 
     /**
@@ -210,6 +210,6 @@ class Trigger
 
     public function __toString()
     {
-        return $this->getName(). ($this->getState() ? ' (on)':' (off)');
+        return $this->getName().($this->getState() ? ' (on)' : ' (off)');
     }
 }

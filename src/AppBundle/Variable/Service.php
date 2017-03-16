@@ -2,7 +2,6 @@
 
 namespace AppBundle\Variable;
 
-use AppBundle\Action\Executor\ExecutorInterface;
 use AppBundle\Entity\Trigger;
 use AppBundle\Entity\Variable;
 use AppBundle\Entity\VariableHistory;
@@ -115,7 +114,7 @@ class Service
 
                     if ($trigger->onActivate) {
                         $tParams = json_decode($trigger->activateParams, true);
-                        $tParams['variable']=$var->getValue();
+                        $tParams['variable'] = $var->getValue();
                         $this->actionService->executeReal(
                             $trigger->onActivate,
                             'trigger:activate',
@@ -130,7 +129,7 @@ class Service
                     // Deactivation hooks
                     if ($trigger->onDeactivate) {
                         $tParams = json_decode($trigger->deactivateParams, true);
-                        $tParams['variable']=$var->getValue();
+                        $tParams['variable'] = $var->getValue();
 
                         $this->actionService->executeReal(
                             $trigger->onDeactivate,

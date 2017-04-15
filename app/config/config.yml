@@ -104,6 +104,14 @@ easy_admin:
                     - executor
                     - type
                     - device
+            form:
+                fields:
+                    - id
+                    - name
+                    - alias
+                    - executor
+                    - type
+                    - device
         Trigger:
             class: AppBundle\Entity\Trigger
             list:

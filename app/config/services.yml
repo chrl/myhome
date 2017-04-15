@@ -9,7 +9,7 @@ services:
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
     vars:
         class: AppBundle\Variable\Service
-        arguments: ["@doctrine", "@actions", "%syncronize_vars%", "%syncronize_host%"]
+        arguments: ["@doctrine", "@actions", "%syncronize_vars%", "%syncronize_host%", "@logger"]
     actions:
         class: AppBundle\Action\Service
         arguments: ["@doctrine", "@service_container"]

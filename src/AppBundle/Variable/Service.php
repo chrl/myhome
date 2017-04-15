@@ -8,6 +8,7 @@ use AppBundle\Entity\VariableHistory;
 use AppBundle\Variable\Parser\ParserInterface;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
+use Monolog\Logger;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class Service
@@ -17,13 +18,21 @@ class Service
     private $needSync = false;
     private $syncHost;
     private $actionService;
+    private $logger;
 
-    public function __construct(Registry $doctrine, \AppBundle\Action\Service $actionService, $needSync, $syncHost)
-    {
+    public function __construct(
+        Registry $doctrine,
+        \AppBundle\Action\Service $actionService,
+        $needSync,
+        $syncHost,
+        Logger $logger
+    ) {
+    
         $this->doctrine = $doctrine;
         $this->needSync = $needSync;
         $this->syncHost = $syncHost;
         $this->actionService = $actionService;
+        $this->logger = $logger;
     }
 
     private function getDoctrine()
@@ -73,6 +82,8 @@ class Service
                 @file_get_contents($this->syncHost.'set/'.$varName.'?value='.$value);
             }
         }
+
+        $this->logger->addInfo('Set '.$var->getName().' to '.$value);
 
         $var->setValue($value);
         $var->setLaststatus(200);

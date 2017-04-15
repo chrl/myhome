@@ -106,10 +106,10 @@ easy_admin:
                     - device
             form:
                 fields:
-                    - id
                     - name
                     - alias
                     - executor
+                    - arguments
                     - type
                     - device
         Trigger:

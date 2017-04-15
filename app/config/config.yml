@@ -96,6 +96,14 @@ easy_admin:
             class: AppBundle\Entity\Widget
         Action:
             class: AppBundle\Entity\Action
+            list:
+                fields:
+                    - id
+                    - name
+                    - alias
+                    - executor
+                    - type
+                    - device
         Trigger:
             class: AppBundle\Entity\Trigger
             list:

@@ -15,9 +15,12 @@ class DashboardController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('dashboard/index.html.twig', [
+        return $this->render(
+            'dashboard/index.html.twig',
+            [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -31,7 +34,9 @@ class DashboardController extends Controller
         $widgets = $widgets->findAll();
 
         $list = [];
-        /** @var Widget $widget */
+        /**
+ * @var Widget $widget
+*/
         foreach ($widgets as $widget) {
             $list[$widget->getId()] = [
                 'id'=>$widget->getId(),
@@ -41,10 +46,14 @@ class DashboardController extends Controller
             ];
         }
         $response = new Response();
-        $response->setContent(json_encode(array(
-            'result' =>'ok',
-            'widgets'=> $list,
-        )));
+        $response->setContent(
+            json_encode(
+                array(
+                'result' =>'ok',
+                'widgets'=> $list,
+                )
+            )
+        );
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -78,10 +87,14 @@ class DashboardController extends Controller
             }
         }
         $response = new Response();
-        $response->setContent(json_encode(array(
-            'result' =>'ok',
-            'widgets'=> $list,
-        )));
+        $response->setContent(
+            json_encode(
+                array(
+                'result' =>'ok',
+                'widgets'=> $list,
+                )
+            )
+        );
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -112,9 +125,13 @@ class DashboardController extends Controller
         $this->getDoctrine()->getManager()->flush();
 
         $response = new Response();
-        $response->setContent(json_encode(array(
-            'result' =>'ok',
-        )));
+        $response->setContent(
+            json_encode(
+                array(
+                'result' =>'ok',
+                )
+            )
+        );
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

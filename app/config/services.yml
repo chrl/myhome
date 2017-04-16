@@ -13,4 +13,6 @@ services:
     actions:
         class: AppBundle\Action\Service
         arguments: ["@doctrine", "@service_container"]
-        
+    thermal:
+        class: AppBundle\ThermalPrinter
+        arguments: ["%debug_printer%"]

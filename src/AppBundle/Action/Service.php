@@ -38,6 +38,7 @@ class Service
 
     /**
      * @param string $source
+     * @return Service
      */
     public function executeReal(Action $action, $source, $arguments)
     {

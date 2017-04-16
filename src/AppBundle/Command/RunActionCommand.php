@@ -42,8 +42,10 @@ class RunActionCommand extends ContainerAwareCommand
 
         $args = json_decode($action->getArguments(), true);
 
-        $output->writeln('Running '.$action->getExecutor().' for "'.
-            $action->getDevice()->getName().'" device');
+        $output->writeln(
+            'Running '.$action->getExecutor().' for "'.
+            $action->getDevice()->getName().'" device'
+        );
 
         $additionalParams = [];
 
@@ -54,9 +56,9 @@ class RunActionCommand extends ContainerAwareCommand
         $additionalParams['container'] = $this->getContainer();
 
         $this->
-            getContainer()->
-            get('actions')->
-            executeReal(
+            getContainer()
+            ->get('actions')
+            ->executeReal(
                 $action,
                 'onetimecli',
                 $additionalParams

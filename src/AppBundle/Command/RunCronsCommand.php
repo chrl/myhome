@@ -33,12 +33,14 @@ class RunCronsCommand extends ContainerAwareCommand
             }
 
             if (time() - $args['last'] >= $args['every']) {
-                $output->writeln('Running '.$cronAction->getExecutor().' for "'.
-                    $cronAction->getDevice()->getName().'" device');
+                $output->writeln(
+                    'Running '.$cronAction->getExecutor().' for "'.
+                    $cronAction->getDevice()->getName().'" device'
+                );
                 $this->
-                    getContainer()->
-                    get('actions')->
-                    executeReal(
+                    getContainer()
+                    ->get('actions')
+                    ->executeReal(
                         $cronAction,
                         'cron',
                         ['container'=>$this->getContainer()]

@@ -32,8 +32,10 @@ class Saytext extends BaseExecutor implements ExecutorInterface
         $result = 'Played from cache';
 
         if (!file_exists($file)) {
-            $res = file_get_contents("http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=".
-                urlencode($text)."&tl=De_de");
+            $res = file_get_contents(
+                "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=".
+                urlencode($text)."&tl=De_de"
+            );
             file_put_contents($file, $res);
 
             $result = 'Saved in cache';

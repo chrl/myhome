@@ -187,6 +187,32 @@ class Service
      * @param Variable $variable
      * @return array
      */
+    public function getExtremes(Variable $variable)
+    {
+        /**
+ * @var EntityManager $em
+*/
+        $em = $this->getDoctrine()->getManager();
+
+        $q = $em->createQueryBuilder();
+        $res = $q->
+        select('AVG(vh.value) as average')
+            ->addSelect('MIN(vh.value) as minimum')
+            ->addSelect('MAX(vh.value) as maximum')
+            ->from('AppBundle:VariableHistory', 'vh')
+            ->where('vh.time >= :date')
+            ->setParameter('date', new \DateTime('-24 hour'))
+            ->andWhere('vh.var = :var_id')
+            ->setParameter('var_id', $variable->getId())
+            ->getQuery();
+
+        return $res->getArrayResult()[0];
+    }
+
+    /**
+     * @param Variable $variable
+     * @return array
+     */
     public function getLastValue(Variable $variable)
     {
         /** @var EntityManager $em */
